@@ -1,4 +1,4 @@
 function visualize(input_image)
-  image(input_image);
+  imshow(input_image);
 end
 
