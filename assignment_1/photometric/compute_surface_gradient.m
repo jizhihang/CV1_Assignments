@@ -36,6 +36,7 @@ for x=1:W
         
         % solve scriptI * scriptV * g = scriptI * i to obtain g for this point
         [g, ~] = linsolve(scriptI * scriptV, scriptI * vect_i);
+%         g = pinv(scriptI * scriptV) * scriptI * vect_i;
         
         % albedo at this point is |g|
         albedo(x,y) = norm(g);
@@ -43,8 +44,8 @@ for x=1:W
         % normal at this point is g / |g|
         normal(x,y,:) = bsxfun(@rdivide, g, norm(g));
         
-        %   p at this point is N1 / N3
-        %   q at this point is N2 / N3
+        %  p at this point is N1 / N3
+        %  q at this point is N2 / N3
         p(x,y) = bsxfun(@rdivide, normal(x,y,1), normal(x,y,3));
         q(x,y) = bsxfun(@rdivide, normal(x,y,2), normal(x,y,3));
         
