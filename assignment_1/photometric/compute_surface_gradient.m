@@ -26,8 +26,8 @@ q = zeros(W, H);
 num_images = size(stack_images,3);
 
 % for each point in the image array
-for i=x:W
-    for j=y:H
+for x=1:W
+    for y=1:H
         % stack image values into a vector i
         vect_i = double(reshape(stack_images(x,y,:), [num_images, 1]));
         
