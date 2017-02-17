@@ -45,8 +45,8 @@ for x=1:W
         
         %   p at this point is N1 / N3
         %   q at this point is N2 / N3
-        p = bsxfun(@rdivide, normal(x,y,1), normal(x,y,3));
-        q = bsxfun(@rdivide, normal(x,y,2), normal(x,y,3));
+        p(x,y) = bsxfun(@rdivide, normal(x,y,1), normal(x,y,3));
+        q(x,y) = bsxfun(@rdivide, normal(x,y,2), normal(x,y,3));
         
     end
 end

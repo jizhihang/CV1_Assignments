@@ -32,10 +32,10 @@ subplot(2, 2, 3);
 surf(X_sub, Y_sub, height_map(1:32:end, 1:32:end));
 xlabel('x'),ylabel('y'),zlabel('z');
 title('Surface Mesh');
-
+ 
 [U, V, W] = surfnorm(X_sub, Y_sub, height_map(1:32:end, 1:32:end));
 subplot(2, 2, 4), 
 quiver3(X_sub, Y_sub, height_map(1:32:end, 1:32:end), U, V, W, 0.5);
 xlabel('x'),ylabel('y'),zlabel('z');
 title('Surface normals');
-    
+     
