@@ -26,10 +26,10 @@ q = zeros(W, H);
 num_images = size(stack_images,3);
 
 % for each point in the image array
-for i=1:W
-    for j=1:H
+for i=x:W
+    for j=y:H
         % stack image values into a vector i
-        vect_i = double(reshape(stack_images(i,j,:), [num_images, 1]));
+        vect_i = double(reshape(stack_images(x,y,:), [num_images, 1]));
         
         % construct the diagonal matrix scriptI
         scriptI = diag(vect_i);
