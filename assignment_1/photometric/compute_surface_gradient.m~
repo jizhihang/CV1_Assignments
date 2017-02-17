@@ -22,9 +22,9 @@ q = zeros(W, H);
 
 % TODO: Your code goes here
 
-% Number of images stacked
-num_images = size(stack_images,3);
 
+
+num_images = size(stack_images,3);
 % for each point in the image array
 for i=1:W
     for j=1:H
@@ -46,9 +46,6 @@ for i=1:W
         %   p at this point is N1 / N3
         %   q at this point is N2 / N3
         p = bsxfun(@rdivide, normal(x,y,1), normal(x,y,3));
-        q = bsxfun(@rdivide, normal(x,y,2), normal(x,y,3));
-        
-    end
-end
+        q = bsxfun(@rdivide, normal(x,y,2), normal(x,y,3))
 end
 
