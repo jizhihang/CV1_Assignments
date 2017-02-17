@@ -35,7 +35,7 @@ for x=1:W
         scriptI = diag(vect_i);
         
         % solve scriptI * scriptV * g = scriptI * i to obtain g for this point
-        [g, ~] = linsolve(scriptI * scriptV, scriptI * i);
+        [g, ~] = linsolve(scriptI * scriptV, scriptI * vect_i);
         
         % albedo at this point is |g|
         albedo(x,y) = norm(g);
