@@ -8,11 +8,16 @@ end
 scriptV = 0;
 
 % TODO: define arbitrary direction to V
-
+V = [[ 0  0 -1];
+     [ 1 -1 -1];
+     [-1 -1 -1];
+     [ 1  1 -1];
+     [-1  1 -1]];
 
 
 % TODO: normalize V into scriptV
-
+N = sqrt(sum(abs(V).^2, 2));
+scriptV = bsxfun(@rdivide, V, N);
 
 
 
