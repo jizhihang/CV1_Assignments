@@ -5,12 +5,15 @@ function [ dpdy, dqdx ] = check_integrability( p, q )
 %   dpdy : second derivative dp / dy
 %   dqdx : second derviative dq / dx
 
-% dpdy = zeros(size(p, 1), size(p, 2));
-% dqdx = zeros(size(q, 1), size(q, 2));
-
 % TODO: Your code goes here
 % approximate derivate by neighbor difference
 
+% This approximation works by neighbor difference
+% Comparison could also be replaced with a very small number
+% i.e. diff^2 > 0.005
+
+% dpdy = zeros(size(p, 1), size(p, 2));
+% dqdx = zeros(size(q, 1), size(q, 2));
 % for x=1:size(p,1)-1
 %     for y=1:size(p,2)-1
 %         diff = (p(x,y) - p(x,y+1)) - (q(x,y) - q(x+1,y));
@@ -23,6 +26,7 @@ function [ dpdy, dqdx ] = check_integrability( p, q )
 %     end
 % end
 
+% The built in 'gradient' seems to give lower errors
 [~, dpdy] = gradient(p);
 [dqdx, ~] = gradient(q);
 end

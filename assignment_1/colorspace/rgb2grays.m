@@ -3,13 +3,21 @@ function [output_image] = rgb2grays(input_image)
 [R, G, B] = getColorChannels(input_image);
 
 % ligtness method
-lightness = (max(max(R, G), B) + min(min(R, G), B)) ./ 2;
+lightness = (max(input_image, [], 3) + min(input_image, [], 3))/2;
+
 % average method
-average = (R + G + B) ./ 3;
+average = (R + G + B) / 3;
+
 % luminosity method
-luminosity = (0.21 .* R + 0.72 .* G + 0.07 .* B);
+luminosity = (0.21 * R + 0.72 * G + 0.07 * B);
+
 % built-in MATLAB function 
 normal = rgb2gray(input_image);
-output_image = [lightness average; luminosity normal];
+
+% Set all grayed images
+output_image(:,:,1) = lightness;
+output_image(:,:,2) = average;
+output_image(:,:,3) = luminosity;
+output_image(:,:,4) = normal;
 end
 

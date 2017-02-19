@@ -29,6 +29,8 @@ num_images = size(stack_images,3);
 for x=1:W
     for y=1:H
         % stack image values into a vector i
+        % reshape given the number of images -> (num_images, 1)
+        % cast to double
         vect_i = double(reshape(stack_images(x,y,:), [num_images, 1]));
         
         % construct the diagonal matrix scriptI
@@ -36,7 +38,8 @@ for x=1:W
         
         % solve scriptI * scriptV * g = scriptI * i to obtain g for this point
         [g, ~] = linsolve(scriptI * scriptV, scriptI * vect_i);
-%         g = pinv(scriptI * scriptV) * scriptI * vect_i;
+           
+        % ALTERNATIVE: g = pinv(scriptI * scriptV) * scriptI * vect_i;
         
         % albedo at this point is |g|
         albedo(x,y) = norm(g);

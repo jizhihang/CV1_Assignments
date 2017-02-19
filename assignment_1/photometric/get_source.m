@@ -8,6 +8,7 @@ end
 scriptV = 0;
 
 % TODO: define arbitrary direction to V
+% fontal, left-above, right-above, right-below, left-below
 V = [[ 0  0 -1];
      [ 1 -1 -1];
      [-1 -1 -1];
@@ -18,8 +19,6 @@ V = [[ 0  0 -1];
 % TODO: normalize V into scriptV
 N = sqrt(sum(abs(V).^2, 2));
 scriptV = bsxfun(@rdivide, V, N);
-
-
 
 
 % scale up to scale factor before return
