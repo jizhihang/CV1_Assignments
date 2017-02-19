@@ -6,7 +6,7 @@ close all
 
 I = imread('peppers.png');
 
-%J = ConvertColorSpace(I,'gray');
+J = ConvertColorSpace(I,'gray');
  
 % close all
  % J = ConvertColorSpace(I,'rgb');

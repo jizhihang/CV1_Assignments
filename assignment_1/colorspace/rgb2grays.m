@@ -15,9 +15,6 @@ luminosity = (0.21 * R + 0.72 * G + 0.07 * B);
 normal = rgb2gray(input_image);
 
 % Set all grayed images
-output_image(:,:,1) = lightness;
-output_image(:,:,2) = average;
-output_image(:,:,3) = luminosity;
-output_image(:,:,4) = normal;
+output_image = cat(3, lightness, average, luminosity, normal);
 end
 
