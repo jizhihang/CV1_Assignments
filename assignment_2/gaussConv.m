@@ -1,7 +1,8 @@
 function [ imOut ] = gaussConv(image, sigma_x, sigma_y, kernel_size)
-%GAUSSCONV Summary of this function goes here
-%   Detailed explanation goes here
-
-
+% gaussConv - Apply 1D gaussian filter convolution
+% across both dimensions.
+x_filter = gauss(sigma_x, kernel_size);
+y_filter = gauss(sigma_y, kernel_size);
+imOut = conv2(x_filter, y_filter, image, 'same');
 end
 
