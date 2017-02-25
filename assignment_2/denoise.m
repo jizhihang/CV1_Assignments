@@ -36,7 +36,7 @@ cols = size(padded_image,2);
 for r=krow_radius+1:(rows - krow_radius)
     for c=kcol_radius+1:(cols - kcol_radius)
         % Construct submatrix
-        m = padded_image(r-krow_radius:r+krow_radius, c-kcol_radius:c+kcol_radius);
+        m = padded_image((r-krow_radius):(r+krow_radius), (c-kcol_radius):(c+kcol_radius));
         
         % Compute mean or median depending on kernel type
         if strcmp(kernel_type,'box')
