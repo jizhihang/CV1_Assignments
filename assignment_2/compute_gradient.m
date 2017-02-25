@@ -10,14 +10,15 @@ function [im_magnitude ,im_direction] = compute_gradient(image)
   grad_y = conv2(gy, image, 'full');
   
   % Compute magnitude and direction
-  grad_magnitude = sqrt(grad_x.^2+grad_y.^2);
-  grad_direction = atan(grad_y./grad_x);
+  im_magnitude = sqrt(grad_x.^2+grad_y.^2);
+  im_direction = atan(grad_y./grad_x);
   
   % plots
+  % TODO: If we use some main to plot, we can't plot grad_x and grad_y
   subplot(2, 2, 1), imshow(grad_x), title('Gradient X');
   subplot(2, 2, 2), imshow(grad_y), title('Gradient Y');
-  subplot(2, 2, 3), imshow(grad_magnitude), title('Gradient Magnitude');
-  % How do we plot direction for it to look decent?
-  subplot(2, 2, 4), imshow(grad_direction), title('Gradient Direction');
+  subplot(2, 2, 3), imshow(im_magnitude), title('Gradient Magnitude');
+  % TODO: How do we plot direction for it to look decent?
+  subplot(2, 2, 4), imshow(im_direction), title('Gradient Direction');
 
 end

@@ -3,6 +3,7 @@ function [ imOut ] = gaussConv(image, sigma_x, sigma_y, kernel_size)
 % across both dimensions.
 x_filter = gauss(sigma_x, kernel_size);
 y_filter = gauss(sigma_y, kernel_size);
-imOut = conv2(x_filter, y_filter, image);
+% TODO: Should we use same here? it helps when unsharping
+imOut = conv2(x_filter, y_filter, image, 'same');
 end
 
