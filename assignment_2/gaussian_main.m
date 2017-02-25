@@ -1,8 +1,5 @@
 % Load image and make it grayscale accounting for color map
 [original_image, map] = imread('Images/image1.jpeg');
-if ~isempty(map)
-    image = ind2gray(X,map);
-end
 
 imshow(original_image)
 title('Original')
