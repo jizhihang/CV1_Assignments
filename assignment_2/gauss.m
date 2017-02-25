@@ -1,7 +1,7 @@
 function [ G ] = gauss(sigma, kernel_size)
 % Create a 1-D gaussian kernel.
 
-% Kernel radius is half the kernel size in this case.
+% Kernel radius is half the kernel size
 kernel_radius = floor(kernel_size / 2);
 
 % x is symmetric for gaussian
