@@ -1,32 +1,24 @@
 function [im_magnitude ,im_direction] = compute_gradient(image)
   % Compute gradient of a image
-%   image = im2double(image);
-%   % Sobel kernel
-%   gy = fspecial('Sobel');
-%   gx = gy';
-%   
-%   % Apply filters
-%   grad_x = conv2(gx, image, 'full');
-%   grad_y = conv2(gy, image, 'full');
-%   
-%   % Compute magnitude and direction
-%   im_magnitude = sqrt(grad_x.^2+grad_y.^2);
-%   im_direction = (atan2(grad_y./grad_x)) * 180/pi;
-
-    gx = [1 +2 +1; 0 0 0; -1 -2 -1];
-    gy = gx';
-    grad_x = conv2(gx, image,'full');
-    grad_y = conv2(gy, image,'full');
-    
-    im_magnitude = sqrt(grad_x.^2 + grad_y.^2);
-    im_direction = atan(grad_y./grad_x);
-
+  image = im2double(image);
+  % Sobel kernel
+  gy = fspecial('Sobel');
+  gx = gy';
+  
+  % Apply filters
+  grad_x = imfilter(image, gx);
+  grad_y = imfilter(image, gy);
+  
+  % Compute magnitude and direction
+  im_magnitude = sqrt(grad_x.^2+grad_y.^2);
+  im_direction = atan2(grad_y,grad_x);
   
   % plots
-  subplot(2, 2, 1), imshow(grad_x, []), title('Gradient X');
-  subplot(2, 2, 2), imshow(grad_y, []), title('Gradient Y');
-  subplot(2, 2, 3), imshow(uint8(im_magnitude), []), title('Gradient Magnitude');
-  % TODO: How do we plot direction for it to look decent?
-  subplot(2, 2, 4), imshow(uint8(im_direction), []), title('Gradient Direction');
+  colormap(bone);
+  subplot(3, 2, 1), imagesc(grad_x), colorbar, title('Gradient X');
+  subplot(3, 2, 2), imagesc(grad_y), colorbar, title('Gradient Y');
+  subplot(3, 2, 3), imagesc(im_magnitude),colorbar, title('Gradient Magnitude');
+  subplot(3, 2, 4), imagesc(im_direction), colorbar, title('Gradient Direction');
+  subplot(3, 2, 5), imagesc((im_magnitude > 0.5).*im_direction), colorbar, title('Gradient Direction for places where the magnitude is > 0.5');
 
 end
