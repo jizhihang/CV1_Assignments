@@ -24,4 +24,4 @@ title('Implementation; \sigma = 11; K=9')
 subplot(224)
 filtered_image = imfilter(original_image, fspecial('gaussian', 9, 11));
 imshow(filtered_image, []);
-title('MATLAB; \sigma = 3; k=3')
+title('MATLAB; \sigma = 11; k=9')

@@ -36,6 +36,5 @@ imshow(filtered_image, [])
 title('Box filter 9x9')
 
 subplot(248)
-filtered_image = denoise(original_image,'median', [9 9]);
-imshow(filtered_image, [])
-title('Median filter 9x9')
+imshow(original_image, [])
+title('Original image')
