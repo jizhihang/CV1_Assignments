@@ -28,8 +28,8 @@ end
 % compute the normalized cumulative sum of the histogram of in
 function nc = normalized_cum(in)
   [hist_counts, ~] = imhist(in);
-  cum = cumsum(hist_counts);
-  nc = cum ./ cum(end);
+  nc = cumsum(hist_counts)/sum(hist_counts);
+  %nc = cum ./ cum(end);
 end
 
 function plot_and_hist(img, name)

@@ -8,16 +8,12 @@ function imOut = compute_LoG(image, LoG_type)
   switch LoG_type
       case 1
           smoothened = gaussConv(image, 1, 1, 3);
-          % TODO: should we do this inside gaussConv?
-          smoothened = uint8(floor(smoothened));
           op = fspecial('laplacian');
           imOut = imfilter(smoothened, op);
       case 2
           op = fspecial('log');
           imOut = imfilter(image, op);
       case 3
-          % TODO: same as above, if we don't floor and uint8 imshow acts
-          % weirdly
-          imOut = uint8(floor(gaussConv(image, 0.5, 0.5, 3) - gaussConv(image, 5, 5, 3)));
+          imOut = gaussConv(image, 1, 1, 5) - gaussConv(image, 10, 10, 5);
   end
 end
