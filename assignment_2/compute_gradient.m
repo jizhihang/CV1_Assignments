@@ -11,7 +11,7 @@ function [im_magnitude ,im_direction] = compute_gradient(image)
   
   % Compute magnitude and direction
   im_magnitude = sqrt(grad_x.^2+grad_y.^2);
-  im_direction = atan(grad_y./grad_x);
+  im_direction = (atan2(grad_y./grad_x)) * 180/pi;
   
   % plots
   subplot(2, 2, 1), imshow(grad_x), title('Gradient X');
