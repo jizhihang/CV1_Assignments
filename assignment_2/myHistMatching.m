@@ -9,15 +9,25 @@ function [ imOut ] = myHistMatching( input, reference )
   nc_in = normalized_cum(input);
   nc_ref = normalized_cum(reference);
 
-  % map the indices in nc_in with the closest matching indices in nc_ref
-  map = zeros(256, 1, 'uint8');
+  % Based on http://fourier.eng.hmc.edu/e161/lectures/contrast_transform/node3.html
+  % map the indices in nc_in with the index of the closest value in nc_ref
+  in2ref = zeros(256, 1, 'uint8');
   for i = 1:256
-      [~, idx] = min(abs(nc_in(i) - nc_ref));
-      map(i) = idx;
+      min = inf;
+      idx = 1;
+      % Find the closest matching value in nc_ref for a given nc_in(i)
+      for j = 1:256
+          candidate = abs(nc_in(i) - nc_ref(j));
+          if candidate < min
+              min = candidate;
+              idx = j;
+          end
+      end 
+      in2ref(i) = idx;
   end
   
   % apply mapping
-  imOut = map(input);
+  imOut = in2ref(input);
   
   % plots
   plot_and_hist(input, 'input');
@@ -29,7 +39,6 @@ end
 function nc = normalized_cum(in)
   [hist_counts, ~] = imhist(in);
   nc = cumsum(hist_counts)/sum(hist_counts);
-  %nc = cum ./ cum(end);
 end
 
 function plot_and_hist(img, name)
