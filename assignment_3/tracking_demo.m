@@ -1,5 +1,5 @@
 % Chance this line to record either ping pong or person with toy video
-rec_type = 'person_toy'; % options are 'pingpong' or 'person_toy'
+rec_type = 'pingpong'; % options are 'pingpong' or 'person_toy'
 
 if strcmp(rec_type, 'pingpong')
 kernel_size = 17;
@@ -36,7 +36,7 @@ for img = 1:num_files
     end
     
     % Get optical flow arrows
-    [vx, vy] = lucas_kanade_points(img1,img2, r, c, kernel_size);
+    [vx, vy] = lucas_kanade_points(img1,img2, r, c, 15);
     
     % C
     fig = figure(img);

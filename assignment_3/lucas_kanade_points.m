@@ -38,6 +38,11 @@ for corner_i = 1:size(corner_c,1)
     window_y = Iy(box_x:(box_x + window_size), box_y:(box_y + window_size));
     window_t = It(box_x:(box_x + window_size), box_y:(box_y + window_size));
     
+    % Transpose them, so as to use pinv directly
+    window_x = window_x';
+    window_y = window_y';
+    window_t = window_t';
+    
     % Construct A,b matrices
     A = double([window_x(:), window_y(:)]);
     b = -window_t(:);
