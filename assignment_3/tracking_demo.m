@@ -1,5 +1,5 @@
 % Chance this line to record either ping pong or person with toy video
-rec_type = 'pingpong'; % options are 'pingpong' or 'person_toy'
+rec_type = 'person_toy'; % options are 'pingpong' or 'person_toy'
 
 if strcmp(rec_type, 'pingpong')
 kernel_size = 17;
@@ -31,8 +31,8 @@ for img = 1:num_files
         img1 = imread(['pingpong/00' num2str(img-1,'%02d') '.jpeg']);
         img2 = imread(['pingpong/00' num2str(img,'%02d') '.jpeg']);
     elseif strcmp(rec_type, 'person_toy')
-        img1 = imread(['../person_toy/00000' num2str(img,'%03d') '.jpg']);
-        img2 = imread(['../person_toy/00000' num2str(img+1,'%03d') '.jpg']);
+        img1 = imread(['person_toy/00000' num2str(img,'%03d') '.jpg']);
+        img2 = imread(['person_toy/00000' num2str(img+1,'%03d') '.jpg']);
     end
     
     % Get optical flow arrows
