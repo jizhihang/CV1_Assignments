@@ -6,7 +6,7 @@ window_size = 20;
 threshold = 1;
 
 % Get corners from first image.
-[~, r, c] = harris(imread('person_toy/00000001.jpg'), kernel_size, sigma, window_size, threshold);
+[~, r, c] = harris(imread('pingpong/0000.jpeg'), kernel_size, sigma, window_size, threshold);
 
 writer = VideoWriter('person.avi');
 writer.FrameRate = 15;
@@ -37,6 +37,10 @@ for img = 1:num_files
     frame = getframe(gcf);
     writeVideo(writer, frame);
     hold off
+    
+    
+    r = int16(r) + int16(2.9 * vx');
+    c = int16(c) + int16(1.5 * vy');
 end
 
 close(writer);

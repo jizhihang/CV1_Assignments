@@ -23,8 +23,8 @@ for corner_i = 1:size(corner_c,1)
     % outside the bounds of the image. i.e. subtract from the point (r,c)
     % centered here, half the window size and make sure it's > 0 and
     % less than the maximum size of the image on both dimensions.
-    box_x = corner_r(corner_i) - floor(window_size)/2 + 1;
-    box_y = corner_c(corner_i) - floor(window_size)/2 + 1;
+    box_x = int8(corner_r(corner_i) - floor(window_size)/2 + 1);
+    box_y = int8(corner_c(corner_i) - floor(window_size)/2 + 1);
     
     if (box_x + window_size) > width || (box_y + window_size) > height || box_x <= 0 || box_y <= 0
         vx = [vx 0];
