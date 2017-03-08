@@ -1,5 +1,5 @@
 % Chance this line to record either ping pong or person with toy video
-rec_type = 'pingpong'; % options are 'pingpong' or 'person_toy'
+rec_type = 'person_toy'; % options are 'pingpong' or 'person_toy'
 
 if strcmp(rec_type, 'pingpong')
 kernel_size = 17;
