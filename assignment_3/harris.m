@@ -1,4 +1,4 @@
-function [H, r, c] = harris(img, kernel_size, sigma, n, threshold)
+function [H, r, c] = harris(img, kernel_size, sigma, n, threshold, to_plot)
  % size and sigma are the kernel size and sigma for the gaussian kernel
  % n is the window size for the neighbour window
  % threshold is a user defined value for a corner point
@@ -52,8 +52,10 @@ function [H, r, c] = harris(img, kernel_size, sigma, n, threshold)
 %  subplot(4,1,3),imshow(H>threshold);
 %  subplot(4,1,4),imshow(H==maxH&H>threshold);
 
- figure;
- subplot(131), imshow(100 * Ix); title('Derivatives in X direction')
- subplot(132), imshow(100 * Iy); title('Derivatives in Y direction')
- subplot(133), imshow(img); hold on; plot(c,r, 'go'); title('Corners')
+ if to_plot
+     figure;
+     subplot(131), imshow(50 * Ix); title('Derivatives in X direction')
+     subplot(132), imshow(50 * Iy); title('Derivatives in Y direction')
+     subplot(133), imshow(img); hold on; plot(c,r, 'go'); title('Corners')
+ end
 end
