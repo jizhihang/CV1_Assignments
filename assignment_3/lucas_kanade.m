@@ -34,11 +34,6 @@ function v = optical_flow(x)
   % Optical flow for 2 regions
   r1 = x(:,:,1);
   r2 = x(:,:,2);
-  
-  % TODO: How to do this with the imfilters?
-%   [Gx, Gy] = gradient(fspecial('gaussian', 15, 5));
-%   Ix = imfilter(r1, Gx, 'same');
-%   Iy = imfilter(r1, Gy, 'same');
     
   [Ix, Iy] = imgradientxy(double(r1));
   
