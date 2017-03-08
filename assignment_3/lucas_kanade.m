@@ -1,3 +1,8 @@
+% Note: This implementation uses blockproc to automatically apply
+% the optical flow algorithm. The 'lucas_kanade_points' uses for loops
+% and has points as well as the window size specified. That one is to be
+% used when doing tracking.
+
 function [vx, vy] = lucas_kanade(im1, im2)
   % Computes optical flow between im1 and im2
   gim1 = sum(im1,3);
@@ -13,12 +18,11 @@ function [vx, vy] = lucas_kanade(im1, im2)
   % Odd columns
   vx = r(1:end, 1:2:end);
   
-  % Even columns
+  % Even columnsm
   vy = r(1:end, 2:2:end);
   
   % plot
   % TODO: Meshgrid doesn't work for all n
-
   [x, y] = meshgrid(n/2:n:size(im1,1)-n/2, n/2:n:size(im1,2)-n/2);
   figure;
   imshow(im1);
@@ -36,7 +40,7 @@ function v = optical_flow(x)
 %   Ix = imfilter(r1, Gx, 'same');
 %   Iy = imfilter(r1, Gy, 'same');
     
- [Ix, Iy] = imgradientxy(double(r1));
+  [Ix, Iy] = imgradientxy(double(r1));
   
   A = double([Ix(:) Iy(:)]);
   
