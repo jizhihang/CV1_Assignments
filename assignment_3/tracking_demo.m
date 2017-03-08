@@ -1,3 +1,6 @@
+% Chance this line to record either ping pong or person with toy video
+
+
 kernel_size = 17;
 sigma = 3;
 window_size = 19;
