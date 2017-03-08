@@ -12,7 +12,7 @@ writer = VideoWriter('person.avi');
 writer.FrameRate = 15;
 open(writer);
 
-num_files = 103;
+num_files = 52;
 
 % Loop through images creating frame to be fed to video buffer.
 for img = 1:num_files
@@ -28,12 +28,12 @@ for img = 1:num_files
     imshow(rgb2gray(img1))
     hold on;
     
-    q = quiver(c, r, vx, vy);
+    q = quiver(c,r,vx',vy');
     q.Color = 'red';
     q.LineWidth = 1;
     hold on;
     
-    plot(c, r, 'r.', 'MarkerSize', 15);
+    plot(c,r,'r.','MarkerSize',15)
     frame = getframe(gcf);
     writeVideo(writer, frame);
     hold off

@@ -18,7 +18,7 @@ It = double(img2) - double(img1);
 width = size(img1, 1);
 height = size(img2, 2);
 
-for corner_i = 1:size(corner_c,2)
+for corner_i = 1:size(corner_c,1)
     % If we apply a window here, we need make sure we are not
     % outside the bounds of the image. i.e. subtract from the point (r,c)
     % centered here, half the window size and make sure it's > 0 and
