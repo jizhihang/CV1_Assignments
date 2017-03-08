@@ -11,12 +11,12 @@ vx = [];
 vy = [];
 
 % Construct gradients
-[Ix, Iy] = imgradientxy(image1);
-It = double(image2) - double(image1);
+[Ix, Iy] = imgradientxy(img1);
+It = double(img2) - double(img1);
 
 % Get image dimensions
-width = size(image1, 1);
-height = size(image1, 2);
+width = size(img1, 1);
+height = size(img2, 2);
 
 for corner_i = 1:size(corner_c,2)
     % If we apply a window here, we need make sure we are not
@@ -35,8 +35,8 @@ for corner_i = 1:size(corner_c,2)
     % If window centered here is not out of bounds, continue.
     % First construct windows
     window_x = Ix(box_x:(box_x + window_size), box_y:(box_y + window_size));
-    window_y = Iy(box_x:(box_y + window_size), box_y:(box_y + window_size));
-    window_t = It(box_x:(box_y + window_size), box_y:(box_y + window_size));
+    window_y = Iy(box_x:(box_x + window_size), box_y:(box_y + window_size));
+    window_t = It(box_x:(box_x + window_size), box_y:(box_y + window_size));
     
     % Construct A,b matrices
     A = double([window_x(:), window_y(:)]);
