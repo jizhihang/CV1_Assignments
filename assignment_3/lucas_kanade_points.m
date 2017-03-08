@@ -10,10 +10,6 @@ img2 = rgb2gray(img2);
 vx = [];
 vy = [];
 
-% Construct gradients
-[Ix, Iy] = imgradientxy(img1);
-It = double(img2) - double(img1);
-
 % Get image dimensions
 width = size(img1, 1);
 height = size(img2, 2);
@@ -23,8 +19,8 @@ for corner_i = 1:size(corner_c,1)
     % outside the bounds of the image. i.e. subtract from the point (r,c)
     % centered here, half the window size and make sure it's > 0 and
     % less than the maximum size of the image on both dimensions.
-    box_x = int8(corner_r(corner_i) - floor(window_size)/2 + 1);
-    box_y = int8(corner_c(corner_i) - floor(window_size)/2 + 1);
+    box_x = uint16(corner_r(corner_i) - floor(window_size)/2 + 1);
+    box_y = uint16(corner_c(corner_i) - floor(window_size)/2 + 1);
     
     if (box_x + window_size) > width || (box_y + window_size) > height || box_x <= 0 || box_y <= 0
         vx = [vx 0];
@@ -34,21 +30,18 @@ for corner_i = 1:size(corner_c,1)
     
     % If window centered here is not out of bounds, continue.
     % First construct windows
-    window_x = Ix(box_x:(box_x + window_size), box_y:(box_y + window_size));
-    window_y = Iy(box_x:(box_x + window_size), box_y:(box_y + window_size));
-    window_t = It(box_x:(box_x + window_size), box_y:(box_y + window_size));
+    r1 = img1(box_x:(box_x + window_size), box_y:(box_y + window_size));
+    r2 = img2(box_x:(box_x + window_size), box_y:(box_y + window_size));
     
-    % Transpose them, so as to use pinv directly
-    window_x = window_x';
-    window_y = window_y';
-    window_t = window_t';
+    [Ix, Iy] = imgradientxy(r1);
+    It = double(r1) - double(r2);
     
     % Construct A,b matrices
-    A = double([window_x(:), window_y(:)]);
-    b = -window_t(:);
+    A = double([Ix(:) Iy(:)]);
+    b = It(:);
     
     % Solve linear equation and obtain solution
-    U = pinv(A) * b;
+    U = linsolve(A' * A, A' * b);
     vx = [vx U(1)];
     vy = [vy U(2)];
 end
