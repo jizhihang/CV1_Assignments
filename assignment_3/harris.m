@@ -42,6 +42,7 @@ function [H, r, c] = harris(img, kernel_size, sigma, n, threshold)
  corners(end - n:end, 1:n) = 0;
  
  % Return row and column indices of corners
+ % Essentially looking for non-zero values.
  [r, c] = find(corners);
  
  % debug plots
