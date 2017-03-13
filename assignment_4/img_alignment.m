@@ -80,17 +80,17 @@ function [ shiftedIm, shifted_w, shifted_h, shift] = shifted_image(im1, im2, M, 
 [hh, ww] = meshgrid(1:img1_h, 1:img1_w);
 
 % Stack on one dimension, main idea is to apply transf more easily.
-y = reshape(hh.', 1, []);
-x = reshape(ww.', 1, []);
+h_stacked = reshape(hh.', 1, []);
+w_stacked = reshape(ww.', 1, []);
 
 % Stack T to be added on all dimensions
-T = repmat(T', [length(x), 1]);
+T = repmat(T', [length(w_stacked), 1]);
 
 % Apply found transformation, use ceil for rounding.
-new_image_pos = int16(ceil([x;y]' * M' + T));
+new_image_pos = int32(ceil([w_stacked;h_stacked]' * M' + T));
 
-x = x';
-y = y';
+w_stacked = w_stacked';
+h_stacked = h_stacked';
 
 % Get boundaries
 left_c = min(new_image_pos);
@@ -113,7 +113,7 @@ new_image_pos = new_image_pos + repmat(shift, [length(new_image_pos), 1]);
 shiftedIm = zeros(shifted_h, shifted_w);
 
 for i=1:length(new_image_pos)
-    shiftedIm(new_image_pos(i, 2), new_image_pos(i, 1)) = im1(y(i), x(i));
+    shiftedIm(new_image_pos(i, 2), new_image_pos(i, 1)) = im1(h_stacked(i), w_stacked(i));
 end
 
 end
