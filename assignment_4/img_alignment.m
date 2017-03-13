@@ -10,8 +10,8 @@ P = 3;
 % Nearest neighbor interpolation, use averaging
 for i=2:shifted_h-1
     for j=2:shifted_w-1
-        values = [shiftedIm(i-1,j-1:j+1) shiftedIm(i+1,j-1:j+1) shiftedIm(i, j-1) shiftedIm(i, j+1)];
-        shiftedIm(i, j) = mean(values);
+        neighbours = [shiftedIm(i-1,j-1:j+1) shiftedIm(i+1,j-1:j+1) shiftedIm(i, j-1) shiftedIm(i, j+1)];
+        shiftedIm(i, j) = mean(neighbours);
     end
 end
 
