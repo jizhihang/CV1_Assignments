@@ -79,7 +79,7 @@ function [ shiftedIm, shifted_w, shifted_h, shift] = shifted_image(im1, im2, M, 
 % Construct transformation
 [hh, ww] = meshgrid(1:img1_h, 1:img1_w);
 
-% Stack on one dimension, main idea is to find corners more easily.
+% Stack on one dimension, main idea is to apply transf more easily.
 y = reshape(hh.', 1, []);
 x = reshape(ww.', 1, []);
 
