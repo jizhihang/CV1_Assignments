@@ -87,14 +87,14 @@ x = reshape(ww.', 1, []);
 T = repmat(T', [length(x), 1]);
 
 % Apply found transformation, use ceil for rounding.
-new_image_dims = int16(ceil([x;y]' * M' + T));
+new_image_pos = int16(ceil([x;y]' * M' + T));
 
 x = x';
 y = y';
 
 % Get boundaries
-left_c = min(new_image_dims);
-right_c = max(new_image_dims);
+left_c = min(new_image_pos);
+right_c = max(new_image_pos);
 
 [img2_h, img2_w] = size(im2);
 min_c = min([left_c; 1 1]);
@@ -108,12 +108,12 @@ shifted_w = max_c(1) - 1 + min_c(1);
 shifted_h = max_c(2) - 1 + min_c(2);
 
 % Shift only first image
-new_image_dims = new_image_dims + repmat(shift, [length(new_image_dims), 1]);
+new_image_pos = new_image_pos + repmat(shift, [length(new_image_pos), 1]);
 
 shiftedIm = zeros(shifted_h, shifted_w);
 
-for i=1:length(new_image_dims)
-    shiftedIm(new_image_dims(i, 2), new_image_dims(i, 1)) = im1(y(i), x(i));
+for i=1:length(new_image_pos)
+    shiftedIm(new_image_pos(i, 2), new_image_pos(i, 1)) = im1(y(i), x(i));
 end
 
 end
