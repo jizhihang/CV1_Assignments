@@ -84,11 +84,8 @@ function [ shiftedIm, shifted_w, shifted_h, shift] = shifted_image(im1, im2, M, 
 h_stacked = reshape(hh.', 1, []);
 w_stacked = reshape(ww.', 1, []);
 
-% Stack T to be added on all dimensions
-T = repmat(T', [length(w_stacked), 1]);
-
 % Apply found transformation, use ceil for rounding.
-new_image_pos = int32(ceil([w_stacked;h_stacked]' * M' + T));
+new_image_pos = int32(ceil([w_stacked;h_stacked]' * M' + T'));
 
 w_stacked = w_stacked';
 h_stacked = h_stacked';
@@ -110,7 +107,7 @@ shifted_w = max_c(1) - 1 + min_c(1);
 shifted_h = max_c(2) - 1 + min_c(2);
 
 % Shift only first image
-new_image_pos = new_image_pos + repmat(shift, [length(new_image_pos), 1]);
+new_image_pos = new_image_pos + shift;
 
 % Create shifted image
 shiftedIm = zeros(shifted_h, shifted_w);
