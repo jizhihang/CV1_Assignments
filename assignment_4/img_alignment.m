@@ -35,12 +35,12 @@ imshowpair(matlab_tr_img, im2, 'montage')
 title('Using maketform, imtransform');
 
 % 
-%% STITCHING
+% Perform stitching
 figure;
 subplot(2, 2, 1);
 imshow(shiftedIm);
 
-% Shifting the second image
+% Shifting using the second image
 
 im4 = zeros(shifted_h, shifted_w);
 [im2_h, im2_w] = size(im2);
@@ -59,6 +59,9 @@ imshow(shiftedIm);
 end
 
 function [ shiftedIm, shifted_w, shifted_h, shift] = shifted_image(im1, im2, M, T)
+
+% Shift and transform the first image, retain dimensions and shift
+
 [img1_h, img1_w] = size(im1);
 
 % Construct transformation
