@@ -46,7 +46,7 @@ imshow(shiftedIm);
 im4 = zeros(shifted_h, shifted_w);
 [img2_h, img2_w] = size(im2);
 
-% Coordinates for second image
+% Corners
 top_pos = shift(2) + 1;
 bottom_pos = shift(2) + img2_h;
 left_pos = shift(1) + 1;
