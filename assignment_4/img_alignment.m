@@ -73,6 +73,7 @@ function [ shiftedIm, shifted_w, shifted_h, shift] = shifted_image(im1, im2, M, 
 
 % Shift and transform the first image, retain dimensions and shift
 
+% Get first image dimensions
 [img1_h, img1_w] = size(im1);
 
 % Construct transformation
@@ -85,7 +86,7 @@ x = reshape(ww.', 1, []);
 % Stack T to be added on all dimensions
 T = repmat(T', [length(x), 1]);
 
-% Affine transformation, use ceil for rounding.
+% Apply found transformation, use ceil for rounding.
 new_image_dims = int16(ceil([x;y]' * M' + T));
 
 x = x';
