@@ -61,12 +61,11 @@ imshow(im4);
 % Show both, highlighting overlap
 subplot(2, 2, 3);
 imshowpair(shiftedIm, im4);
-
-% Manually position second image in shifted image.
+%         
 shiftedIm(top_pos:bottom_pos,left_pos:right_pos) = im2;
 % 
-subplot(2, 2, 4);
-imshow(shiftedIm);
+% subplot(2, 2, 4);
+% imshow(shiftedIm);
 end
 
 function [ shiftedIm, shifted_w, shifted_h, shift] = shifted_image(im1, im2, M, T)
