@@ -1,7 +1,7 @@
 im1 = imread('left.jpg');
 im2 = imread('right.jpg');
 
-
+% Make sure we are using gray scale
 if length(size(im1)) == 3
     im1 = rgb2gray(im1);
 end

@@ -5,6 +5,7 @@ P = 3;
 % Find best transformation between input images
 [best_M, best_T, ~] = RANSAC(im1, im2, N, P);
 
+% Get shifted image
 [shiftedIm, shifted_w, shifted_h, shift] = shifted_image(im1, im2, best_M, best_T);
 
 % Nearest neighbor interpolation, use averaging
@@ -97,6 +98,7 @@ left_c = min(new_image_pos);
 right_c = max(new_image_pos);
 
 [img2_h, img2_w] = size(im2);
+
 min_c = min([left_c; 1 1]);
 max_c = max([right_c; img2_w img2_h ]);
 
@@ -110,8 +112,10 @@ shifted_h = max_c(2) - 1 + min_c(2);
 % Shift only first image
 new_image_pos = new_image_pos + repmat(shift, [length(new_image_pos), 1]);
 
+% Create shifted image
 shiftedIm = zeros(shifted_h, shifted_w);
 
+% Add first image
 for i=1:length(new_image_pos)
     shiftedIm(new_image_pos(i, 2), new_image_pos(i, 1)) = im1(h_stacked(i), w_stacked(i));
 end
