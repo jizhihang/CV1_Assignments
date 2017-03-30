@@ -4,10 +4,21 @@ function [ ds ] = get_features(img_path, use_dense, sift_type)
 % Args:
 % - img_path: Path of the image we are applying SIFT to.
 % - use_dense: If true use vl_dsift, otherwise vl_sift
-% - sift_type: Type of SIFT: 'RGB', 'rgb', 'opponent'.
+% - sift_type: Type of SIFT: 'RGB', 'rgb', 'opponent', 'gray', 'hsv'.
 
-img = imread(img_path); 
+img = imread(img_path);
 
+% Preprocessing
+if strcmp(sift_type, 'gray') && size(img,3) > 2
+    % graySIFT but input image has normal # of color ch.
+    img = img2gray(img);
+elseif ~strcmp(sift_type, 'gray') && size(img,3) < 3
+    % colorSIFT but input image is grayscale.
+    im = img;
+    img(:,:,1) = im;
+    img(:,:,2) = im;
+    img(:,:,3) = im;
+    
 switch sift_type
     case 'RGB'
         img = im2single(img);
