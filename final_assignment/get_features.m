@@ -18,6 +18,7 @@ elseif ~strcmp(sift_type, 'gray') && size(img,3) < 3
     img(:,:,1) = im;
     img(:,:,2) = im;
     img(:,:,3) = im;
+end
     
 switch sift_type
     case 'RGB'
@@ -46,24 +47,24 @@ function [ds] = color_sift(img, use_dense)
     % to grayscale, find keypoints on grayscale
     % and then find and concatenate individual
     % descriptors for each color channel.
+    disp(size(img));
     if use_dense
         % TODO tuning for these parameters
         step = 16; 
-        size = 8;
+        bin_size = 8;
         % Descriptors on each channel
-       [~, descR] = vl_dsift(img(:,:,1),'step',step,'size',size);
-       [~, descG] = vl_dsift(img(:,:,2),'step',step,'size',size);
-       [~, descB] = vl_dsift(img(:,:,3),'step',step,'size',size);
+       [~, descR] = vl_dsift(img(:,:,1),'step',step,'size',bin_size);
+       [~, descG] = vl_dsift(img(:,:,2),'step',step,'size',bin_size);
+       [~, descB] = vl_dsift(img(:,:,3),'step',step,'size',bin_size);
     else
        % Kp on grayscale
-       img = rgb2gray(img);
-       [kp, ~] = vl_sift(img);
+       img_gray = rgb2gray(img);
+       [kp, ~] = vl_sift(img_gray);
        
        % Descriptors on each channel
        [~, descR] = vl_sift(img(:,:,1),'frames',kp);
        [~, descG] = vl_sift(img(:,:,2),'frames',kp);
        [~, descB] = vl_sift(img(:,:,3),'frames',kp);
-       
     end
     % Stack
     ds = cat(1, cat(1, descR, descG), descB);
@@ -72,10 +73,10 @@ end
 function [ds] = gray_sift(img, use_dense)
     % TODO tuning for these parameters
     step = 16; 
-    size = 8;
+    bin_size = 8;
     
     if use_dense
-        [~, ds] = vl_dsift(img, 'step', step, 'size', size);
+        [~, ds] = vl_dsift(img, 'step', step, 'size', bin_size);
     else
         [~, ds] = vl_sift(img);
     end

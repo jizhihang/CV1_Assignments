@@ -1,0 +1,7 @@
+function [ centroids ] = build_vocab(dataset, feature_extr, voc_size, use_dense)
+% Construct the visual vocabulary given a dataset of image paths.
+% 
+
+
+end
+
