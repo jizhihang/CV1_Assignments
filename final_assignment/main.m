@@ -16,4 +16,4 @@ train_list = read_list(train_files);
 train_idx = randperm(num_train);
 train_list = train_list(train_idx);
 
-centroids = build_vocab(train_list, vocab_size, use_dense, sift_type);
+[centroids, ~] = build_vocab(train_list, vocab_size, use_dense, sift_type);
