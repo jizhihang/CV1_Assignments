@@ -90,3 +90,5 @@ ENV/
 
 assignment_4/vlfeat-0.9.20/
 final_assignment/Caltech4
+final_assignment/part2/data
+final_assignment/part2/liblinear-2.1
