@@ -6,7 +6,6 @@ function [ ds ] = get_features(img_path, use_dense, sift_type)
 % - use_dense: If true use vl_dsift, otherwise vl_sift
 % - sift_type: Type of SIFT: 'RGB', 'rgb', 'opponent', 'gray', 'hsv'.
 
-disp(img_path);
 img = imread(img_path);
 
 % Preprocessing
@@ -48,7 +47,6 @@ function [ds] = color_sift(img, use_dense)
     % to grayscale, find keypoints on grayscale
     % and then find and concatenate individual
     % descriptors for each color channel.
-    disp(size(img));
     if use_dense
         % TODO tuning for these parameters
         step = 16; 
