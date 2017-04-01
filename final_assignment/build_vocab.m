@@ -16,4 +16,3 @@ end
 [centroids, ~] = vl_kmeans(single(descriptors), voc_size);
 
 end
-

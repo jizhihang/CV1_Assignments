@@ -17,3 +17,5 @@ train_idx = randperm(num_train);
 train_list = train_list(train_idx);
 
 [centroids, ~] = build_vocab(train_list, vocab_size, use_dense, sift_type);
+
+[h, l] = quantize_images(train_list, centroids, sift_type, use_dense);

@@ -6,6 +6,7 @@ function [ ds ] = get_features(img_path, use_dense, sift_type)
 % - use_dense: If true use vl_dsift, otherwise vl_sift
 % - sift_type: Type of SIFT: 'RGB', 'rgb', 'opponent', 'gray', 'hsv'.
 
+disp(img_path);
 img = imread(img_path);
 
 % Preprocessing
