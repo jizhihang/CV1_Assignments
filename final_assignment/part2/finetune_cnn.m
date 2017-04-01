@@ -17,16 +17,16 @@ opts.whitenData = true ;
 opts.contrastNormalization = true ;
 opts.networkType = 'simplenn' ;
 opts.train = struct() ;
-opts = vl_argparse(opts, varargin) ;
+[opts, varargin] = vl_argparse(opts, varargin) ;
 if ~isfield(opts.train, 'gpus'), opts.train.gpus = []; end;
 
-opts.train.gpus = [1];
+opts.train.gpus = [];
 
 
 
 %% update model
 
-net = update_model();
+net = update_model(varargin{:});
 
 %% TODO: Implement getCaltechIMDB function below
 
@@ -84,6 +84,27 @@ splits = {'train', 'test'};
 
 %% TODO: Implement your loop here, to create the data structure described in the assignment
 
+% Construct Datastore from all images
+imds = imageDatastore(fullfile('../Caltech4/ImageData'),... 
+                      'IncludeSubfolders', true, ...
+                      'LabelSource', 'foldername', ...
+                      'ReadFcn', @readim);
+
+data = cell(1, numel(imds));
+labels = cell(1, numel(imds));
+sets = cell(1, numel(imds));
+
+% Read each image and convert the labels of the form 'class_split'
+% to the appropiate class and split index
+for i=1:numel(imds.Labels)
+    data{i} = read(imds);
+    labels{i} = l2idx(classes, char(imds.Labels(i)));
+    sets{i} = l2idx(splits, char(imds.Labels(i)));
+end
+
+data = single(cat(4, data{:}));
+labels = single(cat(2, labels{:}));
+sets = single(cat(2, sets{:}));
 
 %%
 % subtract mean
@@ -101,4 +122,13 @@ imdb.images.data = imdb.images.data(:,:,:, perm);
 imdb.images.labels = imdb.images.labels(perm);
 imdb.images.set = imdb.images.set(perm);
 
+end
+
+function out = l2idx(strlist, el)
+    for i=1:length(strlist)
+        if contains(el, strlist{i})
+            out = i;
+            break;
+        end
+    end
 end
