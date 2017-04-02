@@ -5,7 +5,15 @@ run(fullfile(fileparts(mfilename('fullpath')), ...
   '..', '..', '..', 'matlab', 'vl_setupnn.m')) ;
 
 opts.modelType = 'lenet' ;
+opts.extraPreprocessing = false;
 [opts, varargin] = vl_argparse(opts, varargin) ;
+if contains(opts.modelType, 'alexnet')
+    opts.resizeTo = 250;
+    opts.inputSize = 227;
+else
+    opts.resizeTo = 48;
+    opts.inputSize = 32;
+end
 
 opts.expDir = fullfile('data', ...
   sprintf('cnn_assignment-%s', opts.modelType)) ;
@@ -25,15 +33,18 @@ opts.train.gpus = [];
 
 
 %% update model
-
-net = update_model(varargin{:});
+if contains(opts.modelType, 'alexnet')
+    net = update_alexnet(varargin{:});
+else
+    net = update_model(varargin{:});
+end
 
 %% TODO: Implement getCaltechIMDB function below
 
 if exist(opts.imdbPath, 'file')
   imdb = load(opts.imdbPath) ;
 else
-  imdb = getCaltechIMDB() ;
+  imdb = getCaltechIMDB(opts.extraPreprocessing, opts.resizeTo) ;
   mkdir(opts.expDir) ;
   save(opts.imdbPath, '-struct', 'imdb') ;
 end
@@ -59,7 +70,7 @@ function fn = getBatch(opts)
 % -------------------------------------------------------------------------
 switch lower(opts.networkType)
   case 'simplenn'
-    fn = @(x,y) getSimpleNNBatch(x,y) ;
+    fn = @(x,y) getSimpleNNBatch(x,y, opts) ;
   case 'dagnn'
     bopts = struct('numGpus', numel(opts.train.gpus)) ;
     fn = @(x,y) getDagNNBatch(bopts,x,y) ;
@@ -67,16 +78,39 @@ end
 
 end
 
-function [images, labels] = getSimpleNNBatch(imdb, batch)
+function [images, labels] = getSimpleNNBatch(imdb, batch, opts)
 % -------------------------------------------------------------------------
 images = imdb.images.data(:,:,:,batch) ;
 labels = imdb.images.labels(1,batch) ;
 if rand > 0.5, images=fliplr(images) ; end
-
+% Rotate image randomly
+if opts.extraPreprocessing && rand > 0.2
+    imgs=images;
+    images=zeros(opts.inputSize, opts.inputSize, 3, numel(batch));
+    for i = 1:size(images,4)
+        images(:,:,:,i) = imcrop(imrotate(imgs(:,:,:,i),...
+                                             randi(90),...
+                                             'bilinear',...
+                                             'crop'),...
+                                 [4*randi(3) 4*randi(3) opts.inputSize-1 opts.inputSize-1]);
+    end
+else
+    images = imresize(images, [opts.inputSize opts.inputSize]);
+end
+% Fancy PCA color perturbation
+if opts.extraPreprocessing && rand > 0.33
+    V = imdb.meta.eigvec;
+    D = imdb.meta.eigval;
+    perturbation_vec = sum(V.*(D.*randn(3,1)*0.1)', 1);
+    perturbation_mat = reshape(repmat(perturbation_vec, opts.inputSize*opts.inputSize, 1),...
+                               opts.inputSize, opts.inputSize, 3);
+    images = images + perturbation_mat;
+end
+images=single(images);
 end
 
 % -------------------------------------------------------------------------
-function imdb = getCaltechIMDB()
+function imdb = getCaltechIMDB(extraPreprocessing, resizeTo)
 % -------------------------------------------------------------------------
 % Preapre the imdb structure, returns image data with mean image subtracted
 classes = {'airplanes', 'cars', 'faces', 'motorbikes'};
@@ -88,7 +122,7 @@ splits = {'train', 'test'};
 imds = imageDatastore(fullfile('../Caltech4/ImageData'),... 
                       'IncludeSubfolders', true, ...
                       'LabelSource', 'foldername', ...
-                      'ReadFcn', @readim);
+                      'ReadFcn', @(x) readim(x, resizeTo));
 
 data = cell(1, numel(imds));
 labels = cell(1, numel(imds));
@@ -110,6 +144,16 @@ sets = single(cat(2, sets{:}));
 % subtract mean
 dataMean = mean(data(:, :, :, sets == 1), 4);
 data = bsxfun(@minus, data, dataMean);
+if extraPreprocessing
+%     dataStd = std(data(:, :, :, sets == 1), 0, 4);
+%     data = bsxfun(@rdivide, data, dataStd);
+    
+    % pixels x rgb
+    mat = reshape(permute(reshape(data, [], 3, size(data, 4)), [1 3 2]), [], 3);
+    [V, D] = eig(cov(mat));
+    imdb.meta.eigvec = V;
+    imdb.meta.eigval = D;
+end
 
 imdb.images.data = data ;
 imdb.images.labels = single(labels) ;
