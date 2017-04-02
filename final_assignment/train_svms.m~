@@ -1,5 +1,0 @@
-function [ output_args ] = train_svms( data, label )
-% Train num_classes
-
-end
-
