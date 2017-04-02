@@ -1,4 +1,4 @@
-function [ ds ] = get_features(img_path, use_dense, sift_type)
+function [ ds ] = get_features(img_path, use_dense, sift_type, step, block_size)
 % Computes and returns SIFT descriptors for a an image at 
 % the specified path.
 % Args:
@@ -23,38 +23,35 @@ end
 switch sift_type
     case 'RGB'
         img = im2single(img);
-        ds = color_sift(img, use_dense);
+        ds = color_sift(img, use_dense, step, block_size);
     case 'rgb'
         img = im2single(color_convert(img, 'RGB2rgb'));
-        ds = color_sift(img, use_dense);
+        ds = color_sift(img, use_dense, step, block_size);
     case 'opponent'
         img = im2single(color_convert(img, 'RGB2opponent'));
-        ds = color_sift(img, use_dense);
+        ds = color_sift(img, use_dense, step, block_size);
     case 'hsv'
         img = im2single(color_convert(img,'RGB2hsv'));
-        ds = color_sift(img, use_dense);
+        ds = color_sift(img, use_dense, step, block_size);
     case 'gray'
         img = im2single(img);
-        ds = gray_sift(img, use_dense);
+        ds = gray_sift(img, use_dense, step, block_size);
     otherwise
         throw(MException('SIFT:TYPE', 'Wrong sift type.'));
 end
     
 end
 
-function [ds] = color_sift(img, use_dense)
+function [ds] = color_sift(img, use_dense, step, block_size)
     % If we are using kp, first transform
     % to grayscale, find keypoints on grayscale
     % and then find and concatenate individual
     % descriptors for each color channel.
     if use_dense
-        % TODO tuning for these parameters
-        step = 16; 
-        bin_size = 8;
         % Descriptors on each channel
-       [~, descR] = vl_dsift(img(:,:,1),'step',step,'size',bin_size);
-       [~, descG] = vl_dsift(img(:,:,2),'step',step,'size',bin_size);
-       [~, descB] = vl_dsift(img(:,:,3),'step',step,'size',bin_size);
+       [~, descR] = vl_dsift(img(:,:,1),'step',step,'size',block_size);
+       [~, descG] = vl_dsift(img(:,:,2),'step',step,'size',block_size);
+       [~, descB] = vl_dsift(img(:,:,3),'step',step,'size',block_size);
     else
        % Kp on grayscale
        img_gray = rgb2gray(img);
@@ -69,13 +66,9 @@ function [ds] = color_sift(img, use_dense)
     ds = cat(1, cat(1, descR, descG), descB);
 end
 
-function [ds] = gray_sift(img, use_dense)
-    % TODO tuning for these parameters
-    step = 16; 
-    bin_size = 8;
-    
+function [ds] = gray_sift(img, use_dense, step, block_size)    
     if use_dense
-        [~, ds] = vl_dsift(img, 'step', step, 'size', bin_size);
+        [~, ds] = vl_dsift(img, 'step', step, 'size', block_size);
     else
         [~, ds] = vl_sift(img);
     end

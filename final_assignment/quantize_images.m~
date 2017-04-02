@@ -1,9 +1,9 @@
-function [histograms, labels] = quantize_images(image_paths, centroids, sift_type, use_dense, step_size, block_size)
+function [histograms, labels] = quantize_images(image_paths, centroids, sift_type, use_dense, step_size, block_s)
 % Obtains histograms and labels of images, given a set of paths.
 
 histograms = [];
 for x=1:size(image_paths)
-    ds = get_features(image_paths{x}, use_dense, sift_type, step_size, block_size);
+    ds = get_features(image_paths{x}, use_dense, sift_type);
     [~, h] = visual_words(centroids, ds);
     histograms = [histograms; h];
 end
