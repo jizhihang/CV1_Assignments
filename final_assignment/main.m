@@ -1,21 +1,18 @@
 % Files
-train_files = 'Caltech4/ImageSets/train.txt';
-test_files = 'Caltech4/ImageSets/test.txt';
+image_folder = 'Caltech4/ImageData/';
 %%%%
 
-% Hyperparams
+%%%%% Hyperparams
 vocab_size = 400; % (800, 1600, 2000 and 4000)
 use_dense = false; % (true, false)
 sift_type = 'RGB'; % ('RGB','rgb','opponent','gray','hsv')
-num_train = 10; % (10 for test, 1000, -1 for all)
+kernel = 'RBF';
+num_vocab = 10; % number of images from each class used for vocab
+num_train = 10; % number of images used from each class for training svm
+%%%%%
 
-% Read all training files
-train_list = read_list(train_files);
-
-% Number of files to train on
-train_idx = randperm(num_train);
-train_list = train_list(train_idx);
-
-[centroids, ~] = build_vocab(train_list, vocab_size, use_dense, sift_type);
-[h, l] = quantize_images(train_list, centroids, sift_type, use_dense);
+[vocab_files, train_files] = construct_dataset(image_folder, num_vocab, num_train);
+[centroids, ~] = build_vocab(vocab_files, vocab_size, use_dense, sift_type);
+[h, l] = quantize_images(train_files, centroids, sift_type, use_dense);
+[svm1, svm2, svm3, svm4] = train_svms(h,l, kernel);
 
