@@ -8,8 +8,8 @@ vocab_size = 400; % (800, 1600, 2000 and 4000)
 use_dense = false; % (true, false)
 sift_type = 'RGB'; % ('RGB','rgb','opponent','gray','hsv')
 kernel = 'RBF';
-num_vocab = 30; % number of images from each class used for vocab
-num_train = 30; % number of images used from each class for training svm
+num_vocab = 50; % number of images from each class used for vocab
+num_train = 50; % number of images used from each class for training svm
 %%%%%
 
 disp('Fetching vocabulary and training files...');

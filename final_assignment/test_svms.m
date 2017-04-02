@@ -2,9 +2,9 @@ function [rankings, accuracies, map] = test_svms(test_h, test_l, test_files,...
 svm_airplane, svm_cars, svm_faces, svm_motorbikes)
 
 [rk_airplane, ap_airplane] = predict_class(1, test_h, test_l, test_files, svm_airplane);
-[rk_cars, ap_cars] = predict_class(1, test_h, test_l, test_files, svm_cars);
-[rk_faces, ap_faces] = predict_class(1, test_h, test_l, test_files, svm_faces);
-[rk_motorbikes, ap_motorbikes] = predict_class(1, test_h, test_l, test_files, svm_motorbikes);
+[rk_cars, ap_cars] = predict_class(2, test_h, test_l, test_files, svm_cars);
+[rk_faces, ap_faces] = predict_class(3, test_h, test_l, test_files, svm_faces);
+[rk_motorbikes, ap_motorbikes] = predict_class(4, test_h, test_l, test_files, svm_motorbikes);
 
 rankings = {rk_airplane, rk_cars, rk_faces, rk_motorbikes};
 accuracies = [ap_airplane, ap_cars, ap_faces, ap_motorbikes];
