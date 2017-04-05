@@ -20,11 +20,12 @@ elseif ~strcmp(sift_type, 'gray') && size(img,3) < 3
     img(:,:,3) = im;
 end
     
+
 switch sift_type
     case 'RGB'
         img = im2single(img);
         ds = color_sift(img, use_dense, step, block_size);
-    case 'rgb'
+    case 'nrgb'
         img = im2single(color_convert(img, 'RGB2rgb'));
         ds = color_sift(img, use_dense, step, block_size);
     case 'opponent'

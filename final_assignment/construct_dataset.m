@@ -11,7 +11,7 @@ train_files = {};
 for i=1:length(categs)
     categ_file = char(strcat(folder,categs(i),'_train','/'));
     
-    for j=1:(num_vocab + num_train)
+    for j=1:(num_vocab+num_train)
         % Don't use same images for training and vocabulary construction.        
         if j > num_vocab
             train_file = strcat(categ_file,'img',num2str(j, '%.3d'), '.jpg');

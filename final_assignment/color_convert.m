@@ -23,8 +23,8 @@ switch type
         
         % Normalize
         outIm(:,:,1) = inIm(:,:,1) ./ norm;
-        outIm(:,:,1) = inIm(:,:,2) ./ norm;
-        outIm(:,:,1) = inIm(:,:,3) ./ norm;
+        outIm(:,:,2) = inIm(:,:,2) ./ norm;
+        outIm(:,:,3) = inIm(:,:,3) ./ norm;
     otherwise
         throw(MException('SIFT:COLOR', 'Color must be RGB2hsv, RGB2opponent or RGB2rgb'));
 end
