@@ -29,6 +29,7 @@ end
 
 function f = get_features(net, datapoint)
     % Features for one datapoint
-    res = vl_simplenn(net, datapoint);
+    im = imresize(datapoint, [net.meta.inputSize(1) net.meta.inputSize(2)]);
+    res = vl_simplenn(net, im, [], [], 'Mode', 'test');
     f = squeeze(res(end-3).x);
 end
