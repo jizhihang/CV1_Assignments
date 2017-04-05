@@ -1,6 +1,6 @@
 %% main function 
-type = 'alexnet';
-if strcmp(type, 'alexnet' ~= 0)
+type = 'lenet';
+if strcmp(type, 'lenet')
     batchSize = 50;
     numEpochs = 40;
     % Can preload here if "model" matches existing folder in data
