@@ -1,5 +1,12 @@
 function net = update_alexnet(varargin)
-% CNN_IMAGENET_INIT  Initialize a standard CNN for ImageNet
+% Code partially taken from matconvnet/examples
+
+% Some parameters have been added below and the code
+% has been adapted to support different learning rates.
+
+% Moreover, the same update_weights function as in update_model is used
+% to copy the weights over.
+
 opts.batchSize = 50;
 opts.numEpochs = 120;
 opts.lr_prev_layers = [.025, 0.5];
@@ -69,9 +76,9 @@ else
   name = 'conv' ;
 end
 if new
-  lrate = opts.lr_prev_layers;
-else
   lrate = opts.lr_new_layers;
+else
+  lrate = opts.lr_prev_layers;
 end
 net.layers{end+1} = struct('type', 'conv', 'name', sprintf('%s%s', name, id), ...
                            'weights', {{init_weight(opts, h, w, in, out, 'single'), ...
@@ -125,16 +132,6 @@ end
 end
 
 % --------------------------------------------------------------------
-function net = add_dropout(net, opts, id)
-% --------------------------------------------------------------------
-if ~opts.batchNormalization
-  net.layers{end+1} = struct('type', 'dropout', ...
-                             'name', sprintf('dropout%s', id), ...
-                             'rate', 0.5) ;
-end
-end
-
-% --------------------------------------------------------------------
 function net = alexnet(net, opts)
 % --------------------------------------------------------------------
 
@@ -168,10 +165,8 @@ net.layers{end+1} = struct('type', 'pool', 'name', 'pool5', ...
                            'pad', 0) ;
 
 net = add_block(net, opts, '6', 6, 6, 256, 4096, 1, 0, false) ;
-net = add_dropout(net, opts, '6') ;
 
 net = add_block(net, opts, '7', 1, 1, 4096, 4096, 1, 0, false) ;
-net = add_dropout(net, opts, '7') ;
 
 net = add_block(net, opts, '8', 1, 1, 4096, 4, 1, 0, true) ;
 

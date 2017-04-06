@@ -1,8 +1,8 @@
 %% main function 
-type = 'alexnet';
-if strcmp(type, 'alexnet' ~= 0)
+type = 'lenet';
+if strcmp(type, 'lenet')
     batchSize = 50;
-    numEpochs = 120;
+    numEpochs = 40;
     % Can preload here if "model" matches existing folder in data
     model = sprintf('batchSize-%d-numEpochs-%d', batchSize, numEpochs);
     [net, info, expdir] = finetune_cnn('modelType', model,...
@@ -16,14 +16,12 @@ else
     'batchSize', batchSize,...
     'numEpochs', numEpochs, 'extraPreprocessing', true);
     nets.pre_trained = vl_simplenn_tidy(load(fullfile('data', 'imagenet-caffe-alex.mat')));
+    nets.pre_trained.meta.inputSize=[227 227];
 end
 
-save('net.mat', 'net');
 %% extract features and train svm
 
-% TODO: We could just use net here instead of saving to/from file.
-% finetune_cnn returns the latest net
-nets.fine_tuned = load(fullfile('net.mat')); nets.fine_tuned = nets.fine_tuned.net;
+nets.fine_tuned = net;
 data = load(fullfile(expdir, 'imdb-caltech.mat'));
 
 

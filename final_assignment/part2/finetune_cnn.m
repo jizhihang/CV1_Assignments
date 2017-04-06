@@ -44,7 +44,7 @@ end
 if exist(opts.imdbPath, 'file')
   imdb = load(opts.imdbPath) ;
 else
-  imdb = getCaltechIMDB(opts.extraPreprocessing, opts.resizeTo) ;
+  imdb = getCaltechIMDB(opts.extraPreprocessing, opts.resizeTo, opts.inputSize) ;
   mkdir(opts.expDir) ;
   save(opts.imdbPath, '-struct', 'imdb') ;
 end
@@ -83,8 +83,8 @@ function [images, labels] = getSimpleNNBatch(imdb, batch, opts)
 images = imdb.images.data(:,:,:,batch) ;
 labels = imdb.images.labels(1,batch) ;
 if rand > 0.5, images=fliplr(images) ; end
-% Rotate image randomly
-if opts.extraPreprocessing && rand > 0.2
+% Rotate and crop image randomly
+if opts.extraPreprocessing && rand > 0.5
     imgs=images;
     images=zeros(opts.inputSize, opts.inputSize, 3, numel(batch));
     for i = 1:size(images,4)
@@ -98,7 +98,7 @@ else
     images = imresize(images, [opts.inputSize opts.inputSize]);
 end
 % Fancy PCA color perturbation
-if opts.extraPreprocessing && rand > 0.33
+if opts.extraPreprocessing && rand > 0.5
     V = imdb.meta.eigvec;
     D = imdb.meta.eigval;
     perturbation_vec = sum(V.*(D.*randn(3,1)*0.1)', 1);
@@ -110,7 +110,7 @@ images=single(images);
 end
 
 % -------------------------------------------------------------------------
-function imdb = getCaltechIMDB(extraPreprocessing, resizeTo)
+function imdb = getCaltechIMDB(extraPreprocessing, resizeTo, inputSize)
 % -------------------------------------------------------------------------
 % Preapre the imdb structure, returns image data with mean image subtracted
 classes = {'airplanes', 'cars', 'faces', 'motorbikes'};
@@ -145,8 +145,8 @@ sets = single(cat(2, sets{:}));
 dataMean = mean(data(:, :, :, sets == 1), 4);
 data = bsxfun(@minus, data, dataMean);
 if extraPreprocessing
-%     dataStd = std(data(:, :, :, sets == 1), 0, 4);
-%     data = bsxfun(@rdivide, data, dataStd);
+    dataStd = std(data(:, :, :, sets == 1), 0, 4);
+    data = bsxfun(@rdivide, data, dataStd);
     
     % pixels x rgb
     mat = reshape(permute(reshape(data, [], 3, size(data, 4)), [1 3 2]), [], 3);
@@ -156,6 +156,7 @@ if extraPreprocessing
 end
 
 imdb.images.data = data ;
+
 imdb.images.labels = single(labels) ;
 imdb.images.set = sets;
 imdb.meta.sets = {'train', 'val'} ;

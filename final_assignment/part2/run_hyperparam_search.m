@@ -2,8 +2,7 @@ batchSizes = {50, 100};
 numEpochs = {40, 80, 120};
 
 rowNames = {};
-trainErrs = [];
-valErrs = [];
+testErrs = [];
 for i = 1:numel(batchSizes)
     for j = 1:numel(numEpochs)
         bs = batchSizes{i};
@@ -11,32 +10,62 @@ for i = 1:numel(batchSizes)
         [net, info, expdir] = finetune_cnn('modelType', sprintf('batchSize-%d-numEpochs-%d', bs, ne),...
                                            'batchSize', bs,...
                                            'numEpochs', ne);
-        %errors{j + (i-1)*numel(numEpochs)} = sprintf('batchSize %d numEpochs %d train_err %f val_err %f',...
-                %bs, ne, mean([info.train.top1err]), mean([info.val.top1err]));
         rowNames{j+(i-1)*numel(numEpochs)} = sprintf('batchSize %d numEpochs %d', bs, ne);
-        trainErrs = [trainErrs; mean([info.train.top1err])];
-        valErrs = [valErrs; mean([info.val.top1err])];
+        data = load(fullfile(expdir, 'imdb-caltech.mat'));
+        testErrs = [testErrs; get_nn_accuracy(net, data)]
     end
 end
-table(trainErrs, valErrs, 'RowNames', [rowNames])
+table(testErrs, 'RowNames', [rowNames])
 
+% Other configurations
+
+% 99.5%
 % [net, info, expdir] = finetune_cnn('modelType', sprintf('batchSize-%d-numEpochs-%d-lrPrev-[0.05,0.5]-lrNew-[0.5,2]', batchSize, numEpochs),...
 % 'batchSize', batchSize,...
 % 'numEpochs', numEpochs,...
 % 'lr_prev_layers', [0.05,0.5],...
 % 'lr_new_layers', [0.5,2]);
-% 
+% data = load(fullfile(expdir, 'imdb-caltech.mat'));
+% get_nn_accuracy(net, data)
+
+% 99.5%
 % [net, info, expdir] = finetune_cnn('modelType', sprintf('batchSize-%d-numEpochs-%d-lrPrev-[0.05,0.5]-lrNew-[0.1,1]', batchSize, numEpochs),...
 % 'batchSize', batchSize,...
 % 'numEpochs', numEpochs,...
 % 'lr_prev_layers', [0.05,0.5],...
 % 'lr_new_layers', [0.1,1]);
-% 
+% data = load(fullfile(expdir, 'imdb-caltech.mat'));
+% get_nn_accuracy(net, data)
+
+% 76%
 % [net, info, expdir] = finetune_cnn('modelType', sprintf('batchSize-%d-numEpochs-%d-freeze', batchSize, numEpochs),...
 % 'batchSize', batchSize,...
 % 'numEpochs', numEpochs,...
 % 'lr_prev_layers', [0,0]);
+% data = load(fullfile(expdir, 'imdb-caltech.mat'));
+% get_nn_accuracy(net, data)
 
-% net, info, expdir] = finetune_cnn('modelType', sprintf('alexnet-batchSize-%d-numEpochs-%d-extraPreprocessing', batchSize, numEpochs),...
+% 98.5%
+% [net, info, expdir] = finetune_cnn('modelType', sprintf('batchSize-%d-numEpochs-%d-extraPreprocessing', batchSize, numEpochs),...
+% 'batchSize', batchSize,...
+% 'numEpochs', numEpochs,...
+% 'extraPreprocessing', true);
+% data = load(fullfile(expdir, 'imdb-caltech.mat'));
+% get_nn_accuracy(net, data)
+
+% 97.5%
+% [net, info, expdir] = finetune_cnn('modelType', sprintf('batchSize-%d-numEpochs-%d-lrPrev-[0.05,0.1]-lrNew-[0.05,0.2]', batchSize, numEpochs),...
+% 'batchSize', 50,...
+% 'numEpochs', 72,...
+% 'lr_prev_layers', [0.05,0.1],...
+% 'lr_new_layers', [0.05,0.2]);
+% data = load(fullfile(expdir, 'imdb-caltech.mat'));
+% get_nn_accuracy(net, data)
+
+% 98.5%
+% batchSize=64;
+% [net, info, expdir] = finetune_cnn('modelType', sprintf('alexnet-batchSize-%d-numEpochs-%d-extraPreprocessing', batchSize, numEpochs),...
 % 'batchSize', batchSize,...
 % 'numEpochs', numEpochs, 'extraPreprocessing', true);
+% data = load(fullfile(expdir, 'imdb-caltech.mat'));
+% get_nn_accuracy(net, data)

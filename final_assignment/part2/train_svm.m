@@ -19,28 +19,6 @@ fprintf('CNN: fine_tuned_accuracy: %0.2f, SVM: pre_trained_accuracy: %0.2f, fine
 
 end
 
-
-function [accuracy] = get_nn_accuracy(net, data)
-
-counter = 0;
-for i = 1:size(data.images.data, 4)
-    
-if(data.images.set(i)==2)    
-res = vl_simplenn(net, data.images.data(:, :,:, i));
-
-[~, estimclass] = max(res(end).x);
-
-if(estimclass == data.images.labels(i))
-    counter = counter+1;
-end
-
-end
-
-end
-
-accuracy = counter / nnz(data.images.set==2);
-end
-
 function [predictions, accuracy] = get_predictions(data)
 
 best = train(data.trainset.labels, data.trainset.features, '-C -s 0');
@@ -59,7 +37,8 @@ testset.labels = [];
 testset.features = [];
 for i = 1:size(data.images.data, 4)
     
-    res = vl_simplenn(net, data.images.data(:, :,:, i));
+    im = imresize(data.images.data(:,:,:,i), [net.meta.inputSize(1) net.meta.inputSize(2)]);
+    res = vl_simplenn(net, im, [], [], 'Mode', 'test');
     feat = res(end-3).x; feat = squeeze(feat);
     
     if(data.images.set(i) == 1)
