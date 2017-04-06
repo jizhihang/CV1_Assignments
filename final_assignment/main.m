@@ -1,16 +1,16 @@
 %%%%% Hyperparams
-vocab_sizes = [400 800 1200 1600 2000]; % (400, 800, 1600, 2000 and 4000)
-use_denses = [true false]; % (true, false)
-sift_types = {'nrgb' 'opponent' 'RGB'}; % ('RGB','rgb','opponent','gray','hsv')
-kernels = {'linear' 'RBF'};
-num_vocab = 20; % vocab fraction
-num_train = 25; % number of images used from each class for training svm
+vocab_sizes = [400, 800]; % (400, 800, 1600, 2000 and 4000)
+use_denses = [true, false]; % (true, false)
+sift_types = {'RGB', 'hsv', 'opponent', 'gray', 'rgb'}; % ('RGB','rgb','opponent','gray','hsv')
+kernels = {'linear', 'RBF'};
+num_vocab = 100; % vocab fraction
+num_train = 55; % number of images used from each class for training svm
 step_size = 10;
 block_size = 5;
 %%%%%
 
 for i=1:length(vocab_sizes)
-    vocab_size = vocab_sizes(i)
+    vocab_size = vocab_sizes(i);
     for j = 1:length(use_denses)
         use_dense = use_denses(j);
         for k = 1:length(sift_types)

@@ -11,7 +11,7 @@ img = imread(img_path);
 % Preprocessing
 if strcmp(sift_type, 'gray') && size(img,3) > 2
     % graySIFT but input image has normal # of color ch.
-    img = img2gray(img);
+    img = rgb2gray(img);
 elseif ~strcmp(sift_type, 'gray') && size(img,3) < 3
     % colorSIFT but input image is grayscale.
     im = img;

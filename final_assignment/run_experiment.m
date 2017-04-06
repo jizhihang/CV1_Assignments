@@ -13,17 +13,17 @@ if use_dense
 end
 feature_folder = 'Caltech4/FeatureData/';
 ds_file = strcat(feature_folder, 'ds_vsize-', num2str(vocab_size), '_SIFT-',...
- sift_type,'_',dense,'ntrain-',num2str(num_train),'_kernel-',kernel,'.mat'); 
+ sift_type,'_',dense,'ntrain-',num2str(num_train),'.mat'); 
 centroid_file = strcat(feature_folder, 'centroid_vsize-', num2str(vocab_size), '_SIFT-',...
- sift_type,'_',dense,'ntrain-',num2str(num_train),'_kernel-',kernel,'.mat');
+ sift_type,'_',dense,'ntrain-',num2str(num_train),'.mat');
 train_l_file = strcat(feature_folder, 'trlabel_vsize-', num2str(vocab_size), '_SIFT-',...
- sift_type,'_',dense,'ntrain-',num2str(num_train),'_kernel-',kernel,'.mat');
+ sift_type,'_',dense,'ntrain-',num2str(num_train),'.mat');
 test_l_file = strcat(feature_folder, 'tslabel_vsize-', num2str(vocab_size), '_SIFT-',...
- sift_type,'_',dense,'ntrain-',num2str(num_train),'_kernel-',kernel,'.mat');
+ sift_type,'_',dense,'ntrain-',num2str(num_train),'.mat');
 x_train_file = strcat(feature_folder, 'xtrain_vsize-', num2str(vocab_size), '_SIFT-',...
- sift_type,'_',dense,'ntrain-',num2str(num_train),'_kernel-',kernel,'.mat');
+ sift_type,'_',dense,'ntrain-',num2str(num_train),'.mat');
 x_test_file = strcat(feature_folder, 'xtest_vsize-', num2str(vocab_size), '_SIFT-',...
- sift_type,'_',dense,'ntrain-',num2str(num_train),'_kernel-',kernel,'.mat');
+ sift_type,'_',dense,'ntrain-',num2str(num_train), '.mat');
 %%%%%
 
 disp('Fetching vocabulary and training files...');
