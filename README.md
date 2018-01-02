@@ -35,7 +35,7 @@ Source code for the [Computer Vision 1](http://coursecatalogue.uva.nl/xmlpages/p
 </p>
 
 <p align="center">
-  <img src="images/pingpong_harris.png.png" width="650" /><br />
+  <img src="images/pingpong_harris.png" width="650" /><br />
   <i>Corner Detection</i>
 </p>
 
