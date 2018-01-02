@@ -11,7 +11,7 @@ Source code for the [Computer Vision 1](http://coursecatalogue.uva.nl/xmlpages/p
 - [Report](lab_1/report.pdf)
 
 <p align="center">
-  <img src="images/photometric.png" width="650" /><br />
+  <img src="images/photometric.png" width="750" /><br />
   <i>Image Stitching</i>
 </p>
 
@@ -35,7 +35,7 @@ Source code for the [Computer Vision 1](http://coursecatalogue.uva.nl/xmlpages/p
 </p>
 
 <p align="center">
-  <img src="images/pingpong_toy_harris.png" width="650" /><br />
+  <img src="images/pingpong_harris.png.png" width="650" /><br />
   <i>Corner Detection</i>
 </p>
 
@@ -44,7 +44,7 @@ Source code for the [Computer Vision 1](http://coursecatalogue.uva.nl/xmlpages/p
 - [Report](lab_4/report.pdf)
 
 <p align="center">
-  <img src="images/b2-b1.png" width="650" /><br />
+  <img src="images/b2-b1.png" width="800" /><br />
   <i>Image Alignment</i>
 </p>
 
