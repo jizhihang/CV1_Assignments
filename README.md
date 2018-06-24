@@ -58,7 +58,7 @@ Source code for the [Computer Vision 1](http://coursecatalogue.uva.nl/xmlpages/p
 
 ## Contributors
 
-- [Mircea Mironenco](https://github.com/danakianfar)
+- [Mircea Mironenco](https://github.com/mirceamironenco)
 - [Bogdan Teleaga](https://github.com/bogdanteleaga)
 
 ## Notice
